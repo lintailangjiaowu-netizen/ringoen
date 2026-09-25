@@ -51,13 +51,13 @@ if ('IntersectionObserver' in window) {
       } else {
         const delay = Math.min(Array.from(element.parentElement.children).indexOf(element), 2) * 65;
         play(element, [
-          { opacity: .3, transform: 'translateY(16px)' },
+          { opacity: .8, transform: 'translateY(8px)' },
           { opacity: 1, transform: 'translateY(0)' }
-        ], { duration: 650, delay, easing: 'cubic-bezier(.2,.65,.3,1)' });
+        ], { duration: 420, delay, easing: 'cubic-bezier(.2,.65,.3,1)' });
       }
     });
   }, { threshold: .12 });
-  document.querySelectorAll('.feature, .room, .staff-card, .work-card, .news-item, .blog-card, .bear-accent').forEach(element => observer.observe(element));
+  document.querySelectorAll('.feature, .room, .therapy-detail, .room-profile, .staff-card, .work-card, .news-item, .blog-card, .bear-accent').forEach(element => observer.observe(element));
 }
 // details本来の開閉とキーボード操作を保ったまま、回答を軽く表示する。
 document.querySelectorAll('.faq details').forEach(details => {

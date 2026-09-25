@@ -12,7 +12,7 @@
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   };
-  const blank = () => ({ id: 'entry-' + Date.now().toString(36), date: today(), title:'', category:'園の日々', summary:'', body:'', cover:'orchard', sample:false });
+  const blank = () => ({ id: 'entry-' + Date.now().toString(36), date: today(), title:'', category:'園の日々', summary:'', body:'', cover:'blocks', sample:false });
   let posts = api.normalize(window.APPLE_FIELD_POSTS || []);
   let currentId = posts[0]?.id || blank().id;
   let dirty = false;

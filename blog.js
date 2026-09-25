@@ -2,6 +2,7 @@
   'use strict';
   const categories = ['園の日々', 'あそびと療育', 'お知らせ'];
   const covers = {
+    blocks: { src: 'assets/diary-blocks.svg', alt: '赤や緑の積み木を重ねたイラスト', caption: '積み木あそびをイメージしたイラストです。', width: 900, height: 640 },
     orchard: { src: 'assets/orchard.png', alt: 'りんごの木の下で遊ぶうさぎとクマのイラスト', caption: 'イラストはイメージです。実際の活動写真ではありません。' },
     book: { src: 'assets/bear-book.png', alt: '絵本を読むクマのイラスト', caption: 'イラストはイメージです。' },
     wave: { src: 'assets/bear-wave.png', alt: '手を振るクマのイラスト', caption: 'イラストはイメージです。' }
@@ -12,6 +13,16 @@
     if (text !== undefined) el.textContent = text;
     return el;
   };
+  function heading(tag, text) {
+    const title = node(tag);
+    let start = 0;
+    for (const match of text.matchAll(/「[^」]{1,6}」/g)) {
+      title.append(document.createTextNode(text.slice(start, match.index)), node('span', 'keep', match[0]));
+      start = match.index + match[0].length;
+    }
+    title.append(document.createTextNode(text.slice(start)));
+    return title;
+  }
   function validate(value) {
     if (!value || typeof value !== 'object') throw new Error('記事の形式が正しくありません。');
     const limits = { id: 90, date: 10, title: 80, category: 20, summary: 220, body: 12000, cover: 20 };
@@ -43,10 +54,10 @@
   }
   function cover(post, small = false) {
     const info = covers[post.cover];
-    const img = node('img', post.cover === 'orchard' ? 'blog-cover' : 'blog-cover blog-cover-character');
+    const img = node('img', ['orchard','blocks'].includes(post.cover) ? 'blog-cover' : 'blog-cover blog-cover-character');
     img.src = info.src; img.alt = info.alt;
-    img.width = post.cover === 'orchard' ? 1536 : 1280;
-    img.height = post.cover === 'orchard' ? 1024 : 1280;
+    img.width = info.width || (post.cover === 'orchard' ? 1536 : 1280);
+    img.height = info.height || (post.cover === 'orchard' ? 1024 : 1280);
     img.decoding = 'async'; if (small) img.loading = 'lazy';
     return img;
   }
@@ -54,12 +65,12 @@
     const article = node('article', 'blog-card');
     const link = node('a', 'blog-card-link'); link.href = 'blog-post.html?id=' + encodeURIComponent(post.id);
     const content = node('div', 'blog-card-copy');
-    content.append(meta(post), node('h2', '', post.title), node('p', '', post.summary), node('span', 'text-link', '日記を読む ↗'));
+    content.append(meta(post), heading('h2', post.title), node('p', '', post.summary), node('span', 'text-link', '日記を読む ↗'));
     link.append(cover(post,true), content); article.append(link); return article;
   }
   function renderArticle(container, post) {
     container.replaceChildren();
-    container.append(meta(post), node('h1', '', post.title));
+    container.append(meta(post), heading('h1', post.title));
     if (post.sample) container.append(node('p', 'sample-notice', 'この記事は文章・構成の見本として作成した架空の1日です。実際の活動記録や、特定のお子さまのエピソードではありません。日付も見本です。'));
     container.append(node('p', 'blog-lead', post.summary));
     const figure = node('figure', 'blog-figure');
@@ -82,6 +93,12 @@
   const list = document.querySelector('[data-blog-list]');
   if (list) {
     const buttons = document.querySelectorAll('[data-blog-filter]');
+    const availableCategories = new Set(posts.map(post => post.category));
+    const filters = document.querySelector('.blog-filters');
+    if (filters) filters.hidden = availableCategories.size < 2;
+    buttons.forEach(button => {
+      button.hidden = button.dataset.blogFilter !== 'すべて' && !availableCategories.has(button.dataset.blogFilter);
+    });
     const renderList = category => {
       const matching = posts.filter(post => category === 'すべて' || post.category === category);
       const limit = Number(list.dataset.limit) || matching.length;

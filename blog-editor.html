@@ -11,22 +11,23 @@
 <meta property="og:locale" content="ja_JP">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="blog.css">
+<link rel="stylesheet" href="orchard-theme.css">
 </head>
-<body><a class="skip" href="#main">本文へ移動</a>
+<body class="orchard-page orchard-editor"><a class="skip" href="#main">本文へ移動</a>
 <div class="draft">ホームページ刷新案 · 掲載内容の確認中</div>
 <header class="header"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">●</span><span><small>児童発達支援・療育ルーム</small><strong>りんご園</strong></span></a><button class="menu-toggle" aria-expanded="false" aria-controls="navigation">メニュー</button>
 <nav id="navigation" aria-label="メインメニュー"><a href="care.html">りんご園の療育</a><a href="rooms.html">各園のご紹介</a><a href="blog.html">日記</a><a href="staff.html">スタッフ</a><a href="recruit.html">採用情報</a><a href="contact.html">ご利用・お問い合わせ</a>
 </nav>
 </header>
 <main id="main">
-<section class="editor-intro wrap"><p class="eyebrow">DIARY STUDIO</p><h1>今日のひとこまを、日記に。</h1><p>文章を入力すると、下のプレビューに反映されます。</p><p class="editor-note">ここは記事の作成画面です。下書きはこの端末・ブラウザに保存されます。<strong>保存だけではサイトに公開されません。</strong>書き出したデータをサイトへ反映すると、一覧と記事ページが更新されます。</p></section>
+<section class="editor-intro wrap"><p class="eyebrow">DIARY STUDIO</p><h1><span class="keep">今日のひとこまを、</span><wbr><span class="keep">日記に。</span></h1><p>書いて、確かめて、サイトへ届ける。</p><ol class="editor-steps" aria-label="日記作成の流れ"><li><span>01</span>日記を書く<small>プレビューで確認</small></li><li><span>02</span>下書きを保存<small>このブラウザに保存</small></li><li><span>03</span>データを書き出す<small>公開サイトへアップロード</small></li></ol><p class="editor-note">ここは記事の作成画面です。下書きはこの端末・ブラウザに保存されます。<strong>保存だけではサイトに公開されません。</strong>書き出したデータをサイトへ反映すると、一覧と記事ページが更新されます。</p></section>
 <div class="editor-layout wrap"><section class="editor-panel"><h2>日記を書く</h2><div class="editor-tools"><label for="article-select">編集する記事<select id="article-select"></select></label><button class="editor-secondary" id="new-article" type="button">＋ 新しい記事</button></div>
 <form id="blog-editor-form">
 <div class="editor-row"><label class="editor-field">記事の日付<input name="date" type="date" required></label><label class="editor-field">カテゴリ<select name="category"><option>園の日々</option><option>あそびと療育</option><option>お知らせ</option></select></label></div>
 <label class="editor-field">タイトル<input name="title" type="text" required maxlength="80" placeholder="例：積み木あそびで見つけた、小さな「できた」"><small>今日の出来事が伝わる、短いタイトルがおすすめです。</small></label>
 <label class="editor-field">一覧に載せる紹介文<textarea name="summary" rows="3" maxlength="220" required placeholder="今日の出来事を2〜3文で紹介しましょう。"></textarea></label>
 <label class="editor-field">本文<textarea name="body" rows="18" maxlength="12000" required placeholder="今日のあそび、小さな発見、スタッフの関わりを書いてみましょう。"></textarea><small>空行で段落が分かれます。見出しは「## 今日のあそび」のように入力できます。</small><small id="body-count"></small></label>
-<label class="editor-field">記事のイラスト<select name="cover"><option value="orchard">りんごの木と仲間たち</option><option value="book">本を読むクマ</option><option value="wave">手を振るクマ</option></select><small>実際の活動写真ではなく、イメージとして表示します。</small></label>
+<label class="editor-field">記事のイラスト<select name="cover"><option value="blocks">積み木のイラスト</option><option value="orchard">りんごの木と仲間たち</option><option value="book">本を読むクマ</option><option value="wave">手を振るクマ</option></select><small>実際の活動写真ではなく、イメージとして表示します。</small></label>
 <label class="editor-field editor-check"><input name="sample" type="checkbox">見本記事として表示する</label>
 <div class="editor-buttons"><button class="button outline" type="submit" formnovalidate>下書きを保存</button><button class="button" type="button" id="export-article">サイト用データを書き出す<span aria-hidden="true">↓</span></button></div>
 <p id="editor-status" class="editor-status" role="status" aria-live="polite">1日分の見本を読み込んでいます。自由に編集してみてください。</p>
@@ -34,14 +35,14 @@
 <div id="export-fallback" hidden><details><summary>ダウンロードが始まらない場合</summary><p class="note">Chrome・Edgeでこの画面を開くか、下のデータをコピーして blog-data.js に保存してください。</p><label for="export-text">書き出しデータ<textarea id="export-text" rows="5" readonly spellcheck="false"></textarea></label><button class="editor-secondary" type="button" id="copy-export">データをコピー</button></details></div>
 <div class="editor-backup"><button class="editor-secondary" id="backup-article" type="button">バックアップ保存</button><label for="restore-backup">バックアップを読み込む<input id="restore-backup" type="file" accept=".json,application/json"></label></div>
 <div class="editor-guide"><details><summary>書き方のヒント ＋</summary><ol><li>今日はどんな遊びをしたか。</li><li>どんな表情や小さな工夫があったか。</li><li>スタッフがどんなふうに関わったか。</li><li>保護者の方に伝えたい、ひと言。</li></ol><p>実際にあったことを、自分の言葉で。お子さまの実名など、個人が特定される情報は載せず、写真を使う際は掲載許可を確認しましょう。</p></details><details><summary>サイトへ反映する手順 ＋</summary><ol><li>「サイト用データを書き出す」で blog-data.js を保存します。</li><li>サイトフォルダの同名ファイルを、保存したファイルに置き換えます。</li><li>ブログを開き直して確認します。公開中のサイトには、同じファイルをアップロードします。</li></ol><p>記事は日付の新しい順に並びます。日付を未来にしても予約投稿にはなりません。</p><p>下書きは端末・ブラウザごとの保存です。別の端末に移るときやブラウザのデータを消す前に、バックアップを保存してください。複数人での同時編集には対応していません。</p></details></div></section>
-<section class="editor-panel"><p class="editor-preview-label">PREVIEW / 読む人にはこう見えます</p><article id="editor-preview" class="blog-article editor-preview"></article><noscript><p>この編集画面はJavaScriptを有効にしてご利用ください。</p></noscript></section></div></main>
+<section class="editor-panel"><p class="editor-preview-label">記事のプレビュー / 読む人にはこう見えます</p><article id="editor-preview" class="blog-article editor-preview"></article><noscript><p>この編集画面はJavaScriptを有効にしてご利用ください。</p></noscript></section></div></main>
 <footer>
 <div class="footer-inner">
 <div class="brand"><span class="brand-mark" aria-hidden="true">●</span><span><small>児童発達支援・療育ルーム</small><strong>りんご園</strong></span>
 </div>
 <p>NPO法人 アップルフィールド<br>一人ひとりの「できる」を、一緒に。</p>
-<div class="footer-links"><a href="index.html">ホーム</a><a href="care.html">りんご園の療育</a><a href="rooms.html">各園のご紹介</a><a href="staff.html">スタッフ</a><a href="recruit.html">採用情報</a><a href="contact.html">ご利用・お問い合わせ</a><a href="news.html">お知らせ・公開情報</a>
-<a href="blog.html">りんご園の日記</a></div>
+<nav class="footer-links" aria-label="フッターメニュー"><a href="index.html">ホーム</a><a href="care.html">りんご園の療育</a><a href="rooms.html">各園のご紹介</a><a href="staff.html">スタッフ</a><a href="recruit.html">採用情報</a><a href="contact.html">ご利用・お問い合わせ</a><a href="news.html">お知らせ・公開情報</a>
+<a href="blog.html">りんご園の日記</a></nav>
 <p class="fine">© りんご園 / Apple Field</p>
 </div>
 </footer>
